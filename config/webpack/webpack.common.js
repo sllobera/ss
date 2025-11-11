@@ -18,7 +18,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: paths.templatePath,
-            favicon: paths.faviconPath,
+           // favicon: paths.faviconPath,
         }),
         new webpack.ProvidePlugin({
             m: 'mithril', //Global access

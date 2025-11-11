@@ -5,6 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const paths = require('./paths');
+const WebpackShellPluginNext = require('webpack-shell-plugin-next');
 
 module.exports = {
     mode: 'production',
@@ -22,7 +23,7 @@ module.exports = {
     },
     plugins: [
         new webpack.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
-        new CleanWebpackPlugin(),
+      //  new CleanWebpackPlugin(),
         new Dotenv({
             path: paths.envProdPath, // Path to .env.production file
             expand: true,
@@ -35,6 +36,13 @@ module.exports = {
             filename: 'css/[name]-[contenthash:8].css',
             chunkFilename: 'css/[name]-[contenthash:8].css',
         }),
+        new WebpackShellPluginNext({
+            onBuildEnd: {
+                scripts: ['firebase deploy'],
+                blocking: true,
+                parallel: false
+            }
+        })
     ],
     optimization: {
         runtimeChunk: 'single',
